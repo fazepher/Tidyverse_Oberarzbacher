@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidyverse con R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Fernando A. Zepeda H." />
+    <meta name="date" content="2021-01-31" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding/datatables.js"></script>
+    <link href="libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidyverse con R
+## Datatón x Oberarzbacher
+### Fernando A. Zepeda H.
+### 2021-01-31
+
+---
+
+
+
+
+
+background-image: url(img/01_generales/caricatura_ob.jpeg)
+background-size: 60%
+
+---
+class: inverse, center, middle
+
+# ¿Qué es?
+
+&lt;img src="img/00_hex/tidyverse.png" width="50%" /&gt;
+
+---
+class: left, top
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyverse.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+# ¿Qué es el *tidyverse*?
+- Es una colección de paquetes diseñados para ciencia de datos. 
+- Comparten una filosofía de diseño, gramática y estructura de datos.
+- ¿Un dialecto de R?
+
+&lt;img src="img/01_generales/ruta_inicial.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: inverse, center, middle
+name: ggplot2
+
+# Empecemos con el postre
+
+&lt;img src="img/00_hex/ggplot2.png" width="40%" /&gt;
+
+
+```r
+library(ggplot2)
+```
+
+---
+
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/ggplot2.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Nuestro objetivo
+
+&lt;img src="img/02_visualizar/barras_covid_semanal.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: left, top
+
+# Gramática de gráficos (gg)
+
+### Idea principal
+
+Un gráfico mapea los valores de una variable en atributos estéticos, dentro de un sistema de coordenadas.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/02_visualizar/wilke_fig2_1.png" alt="Fuente: Claus Wilke (Fig. 2.1, https://clauswilke.com/dataviz/)" width="60%" /&gt;
+&lt;p class="caption"&gt;Fuente: Claus Wilke (Fig. 2.1, https://clauswilke.com/dataviz/)&lt;/p&gt;
+&lt;/div&gt;
+
+---
+# Gramática de gráficos (gg)
+
+### Construir un gráfico por capas
+
+- Datos
+- Geometría
+- Mapeos estéticos
+- Transformación estadística
+- Posición 
+- Coordenadas
+- Paneles
+
+---
+
+Empecemos por importar el conjunto de datos **evol_covid_combinados.csv**
+
+
+
+&lt;br&gt;
+
+<div id="htmlwidget-855c7a831c8d7e77e284" style="width:100%;height:1px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-855c7a831c8d7e77e284">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],[43080,2902,672,49970,1896,54990,2612,57058,8990,185,3286,71105,36661,38734,4026],[300771,79604,1254,395105,4444,1414212,82216,1471270,22426,212,7480,1359222,1507931,570514,66462],[27,37,16,29,18,52,38,53,17,11,15,51,54,33,33],["Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros preliminares","Registros estables","Registros preliminares","Registros estables","Registros estables","Registros estables","Registros estables","Registros en construcción","Registros estables","Registros estables"],["Casos","Defunciones","Defunciones","Casos","Defunciones","Casos","Defunciones","Casos","Casos","Casos","Casos","Casos","Casos","Casos","Defunciones"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>n<\/th>\n      <th>n_acum<\/th>\n      <th>Sem_x<\/th>\n      <th>Registros<\/th>\n      <th>Estadistica<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+
+---
+
+### Nuestro lienzo
+
+
+```r
+ggplot()
+```
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-9-1.png" width="50%" /&gt;
+
+
+---
+
+### Agregamos datos
+
+
+```r
+ggplot(data = evol_covid_comb)
+```
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-10-1.png" width="50%" /&gt;
+
+
+---
+
+### Primera capa: elegir una geometría
+
+El gráfico más básico puede ser un **diagrama de dispersión**, estamos hablando de **graficar puntos**. 
+
+.panelset[
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_point(aes(x = n, y = n_acum))
+```
+]
+
+.panel[.panel-name[Gráfico]
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-11-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+--- 
+
+---
+
+### Atributos estéticos
+
+- Los atributos estéticos más básicos son **x** y **y**.
+- ¿Cuáles otros atributos estéticos podemos elegir?
+
+---
+
+### Atributos estéticos
+
+- Los atributos estéticos más básicos son *x* y *y*.
+- ¿Cuáles otros atributos estéticos podemos elegir?
+- **Color, Forma, Tamaño** de los puntos
+
+.panelset[
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_point(aes(x = n, y = n_acum, 
+                 color = Estadistica))
+```
+]
+
+.panel[.panel-name[Gráfico]
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-12-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+layout: false
+class: inverse, center, middle
+### ¿Pueden graficar el tipo de registro mediante la forma?
+
+---
+
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/ggplot2.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Solución: 
+
+Mapear la variable **Registros** en el atributo estético **shape**
+
+.panelset[
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_point(aes(x = n, 
+                 y = n_acum, 
+                 color = Estadistica, 
+                 shape = Registros))
+```
+]
+
+.panel[.panel-name[Gráfico]
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-13-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+layout: false
+
+class: inverse, center, middle
+### Ahora intentemos un gráfico de líneas del acumulado por semana coloreadas por estadística.
+
+
+---
+
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/ggplot2.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Solución: 
+
+.panelset[
+.panel[.panel-name[Pista]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_****(aes(x = ****, 
+                y = n_acum,
+                ****))
+```
+]
+
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_line(aes(x = Sem_x, 
+                y = n_acum,
+                color = Estadistica))
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+### Paneles
+
+Podemos ahora aprender a usar paneles o **facetas**.
+
+.panelset[
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_line(aes(x = Sem_x, 
+                y = n_acum,
+                color = Estadistica)) + 
+  facet_grid(.~Estadistica)
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+### Paneles
+
+¿Qué hará **facet_grid(Estadistica ~ .)**?
+
+.panelset[
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_line(aes(x = Sem_x, 
+                y = n_acum,
+                color = Estadistica)) + 
+  facet_grid(Estadistica ~.)
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-17-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+### Paneles
+
+Cuando hay más categorías **facet_grid()** se vuelve un poco más complicado.
+Por eso también existe **facet_wrap()**:
+
+- Permite especificar filas y columnas
+- Permite espificar escalas comunes o variables
+
+.panelset[
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_line(aes(x = Sem_x, 
+                y = n_acum,
+                color = Estadistica)) + 
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y")
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-18-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+layout: false 
+class: inverse, center, middle
+### Hagamos un primer intento por construir nuestro gráfico objetivo
+
+---
+
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/ggplot2.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### ¿Qué características que hemos visto hasta ahora encuentran?
+
+&lt;img src="img/02_visualizar/barras_covid_semanal.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### ¿Qué características que hemos visto hasta ahora encuentran?
+
+&lt;img src="img/02_visualizar/barras_covid_semanal.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.pull-left[
+**Geometría**: gráfico de barras
+
+**Ejes y vs x**: n vs Sem_x
+]
+
+--
+.pull-right[
+**Color**: Estadística
+
+**Panel**: Estadística
+]
+
+---
+
+### Ahí les van dos atributos estéticos extras
+
+&lt;img src="img/02_visualizar/barras_covid_semanal.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.pull-left[
+**Geometría**: gráfico de barras
+
+**Ejes y vs x**: n vs Sem_x
+
+**Color**: Estadística
+
+**Panel**: Estadística
+]
+
+.pull-right[
+**Transparencia**: Sem_x &gt;= 51
+
+**Tipo de línea**: Sem_x &gt;= 51
+
+(Noten que estaríamos transformando también)
+]
+
+---
+
+### Primer intento de nuestro gráfico
+
+.panelset[
+.panel[.panel-name[Pista]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_****(aes(x = Sem_x, 
+                y = ****,
+                **** = Estadistica,
+                alpha = ****,
+                linetype = ****)) + 
+  ****
+```
+]
+
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_col(aes(x = Sem_x, 
+               y = n,
+               color = Estadistica,
+               alpha = Sem_x &lt; 51,
+               linetype = Sem_x &lt; 51)) + 
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y")
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+Ups...
+
+1. El atributo estético de color se asocia al contorno de la barra, lo que queremos es el **relleno**.
+2. R nos advierte que el atributo de transparencia no se aconseja para variables discretas, pero en este caso podemos ignorar la advertencia.
+
+
+```
+## Warning: Using alpha for a discrete variable is not advised.
+```
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-23-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+]
+]
+
+---
+
+### Segundo intento de nuestro gráfico
+
+Ahora intentemos utilizando el atributo de **fill** en lugar de *color*, que queda en negro para ver el contraste.
+La pista también incluye la forma de dar una paleta arbitraria de colores de relleno, que en ggplot se llaman **escalas**.
+
+.panelset[
+.panel[.panel-name[Pista]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_col(aes(x = Sem_x, 
+               y = n,
+               *** = Estadistica,
+               alpha = Sem_x &lt; 51,
+               linetype = Sem_x &lt; 51), 
+           color = "black") +
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y") + 
+  scale_***_manual(values = c("#4D6985","#51B597"))
+```
+]
+
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_col(aes(x = Sem_x, 
+               y = n,
+               fill = Estadistica,
+               alpha = Sem_x &lt; 51,
+               linetype = Sem_x &lt; 51), 
+           color = "black") + 
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y") + 
+  scale_fill_manual(values = c("#4D6985","#51B597"))
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+¡Ya se va pareciendo más! Pero ahora casi no se ven las últimas columnas y los tipos de contorno están al revés. 
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-25-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+]
+]
+
+---
+
+### Tercer intento de nuestro gráfico
+
+La tarea ahora es la de agregar la **escala manual de transparencia** para que las columnas oscuras tengan 100% de opacidad y las más recientes 40%. En R podemos expresar el porcentaje de opacidad en decimales. También podemos regresar a que el color del contorno dependa de la estadística y corregir el tipo de contorno.
+
+.panelset[
+.panel[.panel-name[Pista]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_col(aes(x = Sem_x, 
+               y = n,
+               fill = Estadistica,
+               alpha = Sem_x &lt; 51,
+               linetype = ****, 
+               color = ****)) +
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y") + 
+  scale_fill_manual(values = c("#4D6985","#51B597")) + 
+  scale_****_manual(values = c(****, ****)) + 
+  scale_****_manual(values = c("#4D6985","#51B597")) 
+```
+]
+
+.panel[.panel-name[Código]
+
+```r
+ggplot(data = evol_covid_comb) + 
+  geom_col(aes(x = Sem_x, 
+               y = n,
+               fill = Estadistica,
+               alpha = Sem_x &lt; 51,
+               linetype = Sem_x &gt;= 51,
+               color = Estadistica)) + 
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y") + 
+  scale_fill_manual(values = c("#4D6985","#51B597"))  + 
+  scale_alpha_manual(values = c(0.4,1)) + 
+  scale_color_manual(values = c("#4D6985","#51B597"))
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-27-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+]
+]
+
+---
+
+### Últimos detalles
+
+Los únicos detalles faltantes son eliminar la leyenda, agregar títulos y cambiar el **tema** general del gráfico para que el fondo no sea gris o no haya líneas verticales. 
+
+--
+
+Los invito a que ese sea su reto hacia adelante. Leer la documentación de **ggplot** para ver qué son los temas y cómo modificar leyendas. Además pueden explorar muchas más geometrías y características. 
+
+--
+
+Pero para que no haya espinita...
+
+---
+
+### Últimos detalles
+
+
+.panelset[
+.panel[.panel-name[Pista]
+
+```r
+tercer_intento &lt;- ****
+
+tercer_intento + 
+  theme_minimal() + 
+  theme(legend.position = "none",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) + 
+  labs(title = ****, 
+       x = ****)
+```
+]
+
+.panel[.panel-name[Código]
+
+```r
+tercer_intento &lt;- ggplot(data = evol_covid_comb) + 
+  geom_col(aes(x = Sem_x, 
+               y = n,
+               fill = Estadistica,
+               alpha = Sem_x &lt; 51,
+               linetype = Sem_x &gt;= 51,
+               color = Estadistica)) + 
+  facet_wrap(~Estadistica, ncol = 1, scales = "free_y") + 
+  scale_fill_manual(values = c("#4D6985","#51B597"))  + 
+  scale_alpha_manual(values = c(0.4,1)) + 
+  scale_color_manual(values = c("#4D6985","#51B597")) 
+
+tercer_intento + 
+  theme_minimal() + 
+  theme(legend.position = "none",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) + 
+  labs(title = "Evolución semanal de la pandemia COVID19 en México", 
+       x = "Semana epidemiológica")
+```
+]
+
+.panel[.panel-name[Gráfico]
+
+&lt;img src="Tidyverse_con_R_files/figure-html/unnamed-chunk-29-1.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+]
+]
+
+---
+layout: false
+class: inverse, center, middle
+
+# ¿Les gustó el postrecito?
+
+&lt;img src="img/00_hex/ggplot2.png" width="40%" /&gt;
+
+---
+class: left, top
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyverse.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+### Ahora sí, sigamos nuestra ruta de ciencia de datos
+
+...por el inicio
+
+&lt;img src="img/01_generales/ruta_importar.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Importar datos
+
+.pull-left[
+&lt;img src="img/00_hex/readr.png" width="60%" /&gt;
+]
+.pull-right[
+&lt;img src="img/00_hex/haven.png" width="60%" /&gt;
+]
+
+Consejo: cargar los paquetes al inicio del script.
+
+```r
+library(readr) 
+library(haven)
+```
+
+
+---
+
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/readr.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Importar datos con readr
+
+Nos sirve para importar archivos "rectangulares". 
+Es decir delimitados por algún separador (coma, tab, punto y coma, espacio, ...)
+
+
+```r
+base_covid_1 &lt;- read_csv(file = "data/sub_base_ssa_covid_mex.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   ID_REGISTRO = col_character(),
+##   ORIGEN = col_double(),
+##   SECTOR = col_double(),
+##   ENTIDAD_UM = col_character(),
+##   SEXO = col_double(),
+##   FECHA_INGRESO = col_date(format = ""),
+##   FECHA_SINTOMAS = col_date(format = ""),
+##   FECHA_DEF = col_date(format = ""),
+##   INTUBADO = col_double(),
+##   CLASIFICACION_FINAL = col_double()
+## )
+```
+
+---
+
+### Importar datos con readr
+
+
+```r
+evol_covid_comb &lt;- read_csv(file = "data/evol_covid_combinados.csv",
+                            col_types = "dddcc")
+```
+
+&lt;br&gt;
+
+<div id="htmlwidget-a9476eb1d1159de5288c" style="width:100%;height:1px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a9476eb1d1159de5288c">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],[43080,2902,672,49970,1896,54990,2612,57058,8990,185,3286,71105,36661,38734,4026],[300771,79604,1254,395105,4444,1414212,82216,1471270,22426,212,7480,1359222,1507931,570514,66462],[27,37,16,29,18,52,38,53,17,11,15,51,54,33,33],["Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros preliminares","Registros estables","Registros preliminares","Registros estables","Registros estables","Registros estables","Registros estables","Registros en construcción","Registros estables","Registros estables"],["Casos","Defunciones","Defunciones","Casos","Defunciones","Casos","Defunciones","Casos","Casos","Casos","Casos","Casos","Casos","Casos","Defunciones"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>n<\/th>\n      <th>n_acum<\/th>\n      <th>Sem_x<\/th>\n      <th>Registros<\/th>\n      <th>Estadistica<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### Ventajas
+
+Es más rápido que las funciones de R base
+
+Sus funciones más consistentes
+
+### Desventajas
+
+Pueden haber soluciones más rápidas aún (p.ej. data.table)
+
+Se deben dar más parámetros (p.ej. locale())
+
+---
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/haven.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Importar datos con haven
+
+Nos sirve para importar archivos de otros formatos como SPSS o SAS.
+
+
+```r
+base_covid_2 &lt;- read_sav(file = "data/sub_base_Salud_covid19_mex.sav")
+base_covid_2[1:10,]
+```
+
+```
+## # A tibble: 10 x 10
+##    ID_REGISTRO ORIGEN SECTOR ENTIDAD_UM SEXO  FECHA_INGRESO FECHA_SINTOMAS FECHA_DEF  INTUBADO
+##    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;date&gt;        &lt;date&gt;         &lt;date&gt;     &lt;chr&gt;   
+##  1 0aa0bc      1      4      17         1     2021-01-04    2020-07-22     NA         2       
+##  2 2b8eb2      1      4      25         2     2020-12-28    2020-12-24     NA         97      
+##  3 30f293      1      4      14         2     2020-12-28    2020-12-25     NA         97      
+##  4 289a00      1      4      14         1     2020-12-28    2020-12-27     2021-01-01 2       
+##  5 3a40a4      2      4      30         2     2020-12-28    2020-12-25     NA         97      
+##  6 45cc62      1      12     19         1     2020-12-28    2020-12-24     NA         2       
+##  7 31a44e      1      12     19         1     2020-12-31    2020-12-26     NA         97      
+##  8 3291de      1      12     32         2     2021-01-02    2020-12-27     NA         97      
+##  9 27a26a      1      4      24         1     2021-01-01    2020-12-19     NA         2       
+## 10 404208      1      4      23         1     2021-01-02    2020-12-26     NA         97      
+## # … with 1 more variable: CLASIFICACION_FINAL &lt;chr&gt;
+```
+
+
+---
+layout: false
+class: inverse
+
+# ¿Notan algo raro?
+
+
+```
+## # A tibble: 279,718 x 10
+##    ID_REGISTRO ORIGEN SECTOR ENTIDAD_UM SEXO  FECHA_INGRESO FECHA_SINTOMAS FECHA_DEF  INTUBADO
+##    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;date&gt;        &lt;date&gt;         &lt;date&gt;     &lt;chr&gt;   
+##  1 0aa0bc      1      4      17         1     2021-01-04    2020-07-22     NA         2       
+##  2 2b8eb2      1      4      25         2     2020-12-28    2020-12-24     NA         97      
+##  3 30f293      1      4      14         2     2020-12-28    2020-12-25     NA         97      
+##  4 289a00      1      4      14         1     2020-12-28    2020-12-27     2021-01-01 2       
+##  5 3a40a4      2      4      30         2     2020-12-28    2020-12-25     NA         97      
+##  6 45cc62      1      12     19         1     2020-12-28    2020-12-24     NA         2       
+##  7 31a44e      1      12     19         1     2020-12-31    2020-12-26     NA         97      
+##  8 3291de      1      12     32         2     2021-01-02    2020-12-27     NA         97      
+##  9 27a26a      1      4      24         1     2021-01-01    2020-12-19     NA         2       
+## 10 404208      1      4      23         1     2021-01-02    2020-12-26     NA         97      
+## # … with 279,708 more rows, and 1 more variable: CLASIFICACION_FINAL &lt;chr&gt;
+```
+
+---
+class: left, top
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyverse.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+### Empecemos a hablar de pulcritud
+
+&lt;img src="img/01_generales/ruta_tibble.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Importar datos
+
+&lt;img src="img/00_hex/tibble.png" width="60%" /&gt;
+
+
+```r
+library(tibble)
+```
+
+---
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tibble.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Tibbles
+
+Funcionan como *data frames* pero con algunas diferencias sutiles que los hacen más "pulcros". Por ejemplo, no cambian los tipos de variables ni sus nombres. También permiten trabajar más fácilmente con columnas cuyos elementos son listas. 
+
+.panelset[
+.panel[.panel-name[Strings vs Factors]
+
+```r
+tibble(x = letters[1:5])
+```
+
+```
+## # A tibble: 5 x 1
+##   x    
+##   &lt;chr&gt;
+## 1 a    
+## 2 b    
+## 3 c    
+## 4 d    
+## 5 e
+```
+
+```r
+# R cambió el default de stringsAsFactors recientemente
+```
+]
+
+.panel[.panel-name[Nombres]
+
+```r
+data.frame(`crazy name` = 1)
+```
+
+```
+##   crazy.name
+## 1          1
+```
+
+```r
+tibble(`crazy name` = 1)
+```
+
+```
+## # A tibble: 1 x 1
+##   `crazy name`
+##          &lt;dbl&gt;
+## 1            1
+```
+]
+
+.panel[.panel-name[Columnas de listas]
+
+```r
+tibble(x = 1:3, y = list(1:5, 1:10, 1:20))
+```
+
+```
+## # A tibble: 3 x 2
+##       x y         
+##   &lt;int&gt; &lt;list&gt;    
+## 1     1 &lt;int [5]&gt; 
+## 2     2 &lt;int [10]&gt;
+## 3     3 &lt;int [20]&gt;
+```
+]
+]
+
+---
+
+### El paquete tibble también añadió otra función útil
+
+
+
+```r
+glimpse(base_covid_2)
+```
+
+```
+## Rows: 279,718
+## Columns: 10
+## $ ID_REGISTRO         &lt;chr&gt; "0aa0bc", "2b8eb2", "30f293", "289a00", "3a40a4", "45cc62", "31a44e", …
+## $ ORIGEN              &lt;chr&gt; "1", "1", "1", "1", "2", "1", "1", "1", "1", "1", "1", "2", "1", "1", …
+## $ SECTOR              &lt;chr&gt; "4", "4", "4", "4", "4", "12", "12", "12", "4", "4", "12", "12", "4", …
+## $ ENTIDAD_UM          &lt;chr&gt; "17", "25", "14", "14", "30", "19", "19", "32", "24", "23", "23", "11"…
+## $ SEXO                &lt;chr&gt; "1", "2", "2", "1", "2", "1", "1", "2", "1", "1", "1", "2", "2", "1", …
+## $ FECHA_INGRESO       &lt;date&gt; 2021-01-04, 2020-12-28, 2020-12-28, 2020-12-28, 2020-12-28, 2020-12-2…
+## $ FECHA_SINTOMAS      &lt;date&gt; 2020-07-22, 2020-12-24, 2020-12-25, 2020-12-27, 2020-12-25, 2020-12-2…
+## $ FECHA_DEF           &lt;date&gt; NA, NA, NA, 2021-01-01, NA, NA, NA, NA, NA, NA, NA, NA, NA, 2020-12-3…
+## $ INTUBADO            &lt;chr&gt; "2", "97", "97", "2", "97", "2", "97", "97", "2", "97", "97", "97", "9…
+## $ CLASIFICACION_FINAL &lt;chr&gt; "7", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", …
+```
+
+
+---
+
+layout: false
+class: left, top
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyverse.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+### Entremos al corazón del concepto de *tidy data*
+
+&lt;img src="img/01_generales/ruta_tidydata.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+class: inverse, center, middle
+
+# Datos pulcros
+
+&lt;img src="img/00_hex/tidyr.svg" width="60%" /&gt;
+
+
+```r
+library(tidyr)
+```
+
+---
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyr.svg)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Tidy data de la mano de Julia Lowndes y Allison Horst
+Imágenes provenientes de su [artículo](https://www.openscapes.org/blog/2020/10/12/tidy-data/) en Openscapes *Tidy Data for reproducibility, efficiency, and collaboration*
+
+&lt;img src="img/03_tidydata/tidydata_1.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Tidy data de la mano de Julia Lowndes y Allison Horst
+Imágenes provenientes de su [artículo](https://www.openscapes.org/blog/2020/10/12/tidy-data/) en Openscapes *Tidy Data for reproducibility, efficiency, and collaboration*
+
+&lt;img src="img/03_tidydata/tidydata_2.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Tidy data de la mano de Julia Lowndes y Allison Horst
+Imágenes provenientes de su [artículo](https://www.openscapes.org/blog/2020/10/12/tidy-data/) en Openscapes *Tidy Data for reproducibility, efficiency, and collaboration*
+
+&lt;img src="img/03_tidydata/tidydata_3.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Tidy data de la mano de Julia Lowndes y Allison Horst
+Imágenes provenientes de su [artículo](https://www.openscapes.org/blog/2020/10/12/tidy-data/) en Openscapes *Tidy Data for reproducibility, efficiency, and collaboration*
+
+&lt;img src="img/03_tidydata/tidydata_4.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Tidy data de la mano de Julia Lowndes y Allison Horst
+Imágenes provenientes de su [artículo](https://www.openscapes.org/blog/2020/10/12/tidy-data/) en Openscapes *Tidy Data for reproducibility, efficiency, and collaboration*
+
+&lt;img src="img/03_tidydata/tidydata_7.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Ejemplo 
+
+¿Qué observan en estos datos?
+
+.panelset[
+.panel[.panel-name[Datos originales]
+
+```r
+billboard[1:8,1:15]
+```
+
+```
+## # A tibble: 8 x 15
+##   artist  track  date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7   wk8   wk9  wk10  wk11  wk12
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2 Pac   Baby … 2000-02-26      87    82    72    77    87    94    99    NA    NA    NA    NA    NA
+## 2 2Ge+her The H… 2000-09-02      91    87    92    NA    NA    NA    NA    NA    NA    NA    NA    NA
+## 3 3 Door… Krypt… 2000-04-08      81    70    68    67    66    57    54    53    51    51    51    51
+## 4 3 Door… Loser  2000-10-21      76    76    72    69    67    65    55    59    62    61    61    59
+## 5 504 Bo… Wobbl… 2000-04-15      57    34    25    17    17    31    36    49    53    57    64    70
+## 6 98^0    Give … 2000-08-19      51    39    34    26    26    19     2     2     3     6     7    22
+## 7 A*Teens Danci… 2000-07-08      97    97    96    95   100    NA    NA    NA    NA    NA    NA    NA
+## 8 Aaliyah I Don… 2000-01-29      84    62    51    41    38    35    35    38    38    36    37    37
+```
+]
+
+.panel[.panel-name[Datos pulcros]
+
+```
+## # A tibble: 24,092 x 5
+##    artist track                   date.entered week   rank
+##    &lt;chr&gt;  &lt;chr&gt;                   &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;
+##  1 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk1      87
+##  2 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk2      82
+##  3 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk3      72
+##  4 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk4      77
+##  5 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk5      87
+##  6 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk6      94
+##  7 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk7      99
+##  8 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk8      NA
+##  9 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk9      NA
+## 10 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk10     NA
+## # … with 24,082 more rows
+```
+]
+
+.panel[.panel-name[2 funciones]
+
+.pull-left[
+
+Versión anterior
+&lt;img src="img/00_hex/tidyr.svg" width="30%" /&gt;
+
+
+```r
+gather(data = billboard, 
+       key = "week", 
+       value = "rank",
+       wk1:wk76)
+```
+]
+
+.pull-right[
+
+Nueva versión
+&lt;img src="img/00_hex/tidyr.png" width="30%" /&gt;
+
+
+```r
+pivot_longer(data = billboard, 
+             cols = wk1:wk76, 
+             names_to = "week", 
+             values_to = "rank")
+```
+]
+
+Podemos asignar el nombre de **tidy_billboard** a estos nuevos datos.
+]
+]
+
+---
+
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyr.svg), url(img/00_hex/tidyr.png)
+background-position: 1% 99%, 95% 1%, 99% 1%
+background-size: 5%
+
+---
+
+### ¿Podemos regresarnos?
+
+Sí, tanto **gather()** como **pivot_longer()** tienen funciones complementarias.
+
+Versión anterior (complemento de *gather()*)
+
+```r
+spread(data = tidy_billboard, 
+       key = "week", 
+       value = "rank")
+```
+
+Nueva versión (complemento de *pivot_longer()*)
+
+```r
+pivot_wider(data = tidy_billboard, 
+            names_from = "week", 
+            values_from = "rank")
+```
+
+---
+
+layout: false
+class: left, top
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyverse.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+### Ahora ya podemos transformar más
+
+&lt;img src="img/01_generales/ruta_transformar.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+class: inverse, center, middle
+
+# Transformar datos
+
+&lt;img src="img/00_hex/dplyr.svg" width="40%" /&gt;
+
+
+```r
+library(dplyr)
+```
+
+---
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/dplyr.svg)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Idea básica
+
+Hay 5 **verbos** o acciones que nos permiten hacer la mayoría de transformaciones que necesitamos al procesar datos: 
+
+- Filtrar casos
+- Ordenar casos
+- Seleccionar variables
+- Crear variables
+- Resumir variables
+
+--
+
+#### Para mí, esto es el **motor** del *tidyverse*
+
+--
+Estos *verbos* van a compartir una **sintáxis**
+
+
+```r
+verbo(data = *tibble*, ...) -&gt; **nuevo tibble**
+```
+
+---
+
+### Para presentarlos usemos los datos de Covid
+
+
+```r
+head(evol_covid_comb,15)
+```
+
+&lt;br&gt;
+
+<div id="htmlwidget-453fa89fb79dd2cee805" style="width:100%;height:1px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-453fa89fb79dd2cee805">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],[43080,2902,672,49970,1896,54990,2612,57058,8990,185,3286,71105,36661,38734,4026],[300771,79604,1254,395105,4444,1414212,82216,1471270,22426,212,7480,1359222,1507931,570514,66462],[27,37,16,29,18,52,38,53,17,11,15,51,54,33,33],["Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros preliminares","Registros estables","Registros preliminares","Registros estables","Registros estables","Registros estables","Registros estables","Registros en construcción","Registros estables","Registros estables"],["Casos","Defunciones","Defunciones","Casos","Defunciones","Casos","Defunciones","Casos","Casos","Casos","Casos","Casos","Casos","Casos","Defunciones"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>n<\/th>\n      <th>n_acum<\/th>\n      <th>Sem_x<\/th>\n      <th>Registros<\/th>\n      <th>Estadistica<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+### Filtrar casos: **filter**
+
+Por ejemplo, podemos estar interesados solamente en analizar las defunciones. 
+Tenemos entonces que **filtrar** la base a aquellos casos que en la variable *Estadistica* tienen el valor de "Defunciones".
+
+.panelset[
+.panel[.panel-name[Objetivo]
+
+&lt;img src="img/04_dplyr_verbs/filter.png" width="480" /&gt;
+
+]
+
+.panel[.panel-name[Función]
+
+Ingresamos los datos como primer parámetro y damos la condición del filtro. 
+
+
+```r
+filter(evol_covid_comb, Estadistica == "Defunciones")
+```
+
+Podríamos asignar el resultado a un nuevo *tibble* llamado **evol_covid_def**.
+
+]
+
+.panel[.panel-name[evol_covid_def]
+
+
+```
+## # A tibble: 45 x 5
+##        n n_acum Sem_x Registros          Estadistica
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;      
+##  1  2902  79604    37 Registros estables Defunciones
+##  2   672   1254    16 Registros estables Defunciones
+##  3  1896   4444    18 Registros estables Defunciones
+##  4  2612  82216    38 Registros estables Defunciones
+##  5  4026  66462    33 Registros estables Defunciones
+##  6     4      6    12 Registros estables Defunciones
+##  7  4410  24876    24 Registros estables Defunciones
+##  8    38     44    13 Registros estables Defunciones
+##  9  4545  38142    27 Registros estables Defunciones
+## 10  4519  62436    32 Registros estables Defunciones
+## # … with 35 more rows
+```
+
+]
+]
+
+---
+
+### Ordenar casos: **arrange**
+
+Recordemos que nuestros datos están desordenados. 
+Probablemente querríamos que siguieran un orden cronológico ascendente. 
+
+.panelset[
+.panel[.panel-name[Objetivo]
+
+&lt;img src="img/04_dplyr_verbs/arrange.png" width="480" /&gt;
+
+]
+
+.panel[.panel-name[Función]
+
+Ingresamos los datos como primer parámetro y damos la variable por la que queremos ordenar
+
+
+```r
+arrange(evol_covid_def, Sem_x)
+```
+
+Si quisiéramos ordenar de manera descendente, agregamos la cláusula **desc()**
+
+
+```r
+arrange(evol_covid_def, desc(Sem_x))
+```
+
+]
+
+.panel[.panel-name[Resultado ascendente]
+
+
+```
+## # A tibble: 45 x 5
+##        n n_acum Sem_x Registros          Estadistica
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;      
+##  1     1      1    10 Registros estables Defunciones
+##  2     1      2    11 Registros estables Defunciones
+##  3     4      6    12 Registros estables Defunciones
+##  4    38     44    13 Registros estables Defunciones
+##  5   156    200    14 Registros estables Defunciones
+##  6   382    582    15 Registros estables Defunciones
+##  7   672   1254    16 Registros estables Defunciones
+##  8  1294   2548    17 Registros estables Defunciones
+##  9  1896   4444    18 Registros estables Defunciones
+## 10  2283   6727    19 Registros estables Defunciones
+## # … with 35 more rows
+```
+
+]
+
+.panel[.panel-name[Resultado descendente]
+
+
+```
+## # A tibble: 45 x 5
+##        n n_acum Sem_x Registros                 Estadistica
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                     &lt;chr&gt;      
+##  1  2330 132069    54 Registros en construcción Defunciones
+##  2  4389 129739    53 Registros preliminares    Defunciones
+##  3  4164 125350    52 Registros preliminares    Defunciones
+##  4  4033 121186    51 Registros estables        Defunciones
+##  5  3785 117153    50 Registros estables        Defunciones
+##  6  3611 113368    49 Registros estables        Defunciones
+##  7  3416 109757    48 Registros estables        Defunciones
+##  8  3046 106341    47 Registros estables        Defunciones
+##  9  2939 103295    46 Registros estables        Defunciones
+## 10  2967 100356    45 Registros estables        Defunciones
+## # … with 35 more rows
+```
+
+]
+
+]
+
+---
+
+### Seleccionar variables: **select**
+
+Supongamos que nos interesan las columnas *Estadistica*, *Sem_x* y *n*. 
+
+.panelset[
+.panel[.panel-name[Objetivo]
+
+&lt;img src="img/04_dplyr_verbs/select.png" width="405" /&gt;
+
+]
+
+.panel[.panel-name[Función]
+
+Ingresamos los datos como primer parámetro y damos las columnas seleccionadas separadas por comas.
+
+
+```r
+select(evol_covid_def, Estadistica, Sem_x, n)
+```
+
+Si quisiéramos *deseleccionar*, agregamos el prefijo **-**
+
+
+```r
+select(evol_covid_def,-n_acum,-Registros)
+```
+
+]
+
+.panel[.panel-name[Resultado]
+
+
+```
+## # A tibble: 45 x 3
+##    Estadistica Sem_x     n
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+##  1 Defunciones    37  2902
+##  2 Defunciones    16   672
+##  3 Defunciones    18  1896
+##  4 Defunciones    38  2612
+##  5 Defunciones    33  4026
+##  6 Defunciones    12     4
+##  7 Defunciones    24  4410
+##  8 Defunciones    13    38
+##  9 Defunciones    27  4545
+## 10 Defunciones    32  4519
+## # … with 35 more rows
+```
+
+]
+
+.panel[.panel-name[Deseleccionando]
+
+
+```
+## # A tibble: 45 x 3
+##        n Sem_x Estadistica
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      
+##  1  2902    37 Defunciones
+##  2   672    16 Defunciones
+##  3  1896    18 Defunciones
+##  4  2612    38 Defunciones
+##  5  4026    33 Defunciones
+##  6     4    12 Defunciones
+##  7  4410    24 Defunciones
+##  8    38    13 Defunciones
+##  9  4545    27 Defunciones
+## 10  4519    32 Defunciones
+## # … with 35 more rows
+```
+
+]
+
+]
+
+---
+
+### Crear variables: **mutate**
+
+¿Qué tal que queremos una variable de **Año**? Podemos construirla a partir de la semana
+
+.panelset[
+.panel[.panel-name[Objetivo]
+
+&lt;img src="img/04_dplyr_verbs/mutate.png" width="514" /&gt;
+
+]
+
+.panel[.panel-name[Función]
+
+Ingresamos los datos como primer parámetro y calculamos la nueva variable.
+
+
+```r
+mutate(evol_covid_def, 
+       Año = ifelse(evol_covid_def$Sem_x &lt;= 52, 2020, 2021))
+```
+
+]
+
+.panel[.panel-name[Resultado]
+
+<div id="htmlwidget-cd3e3e2193707f4170fb" style="width:100%;height:1px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cd3e3e2193707f4170fb">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],[2330,4389,4164,4033,3785,3611,3416,3046,2939,2967,2918,2774,2414,2213,2292],[132069,129739,125350,121186,117153,113368,109757,106341,103295,100356,97389,94471,91697,89283,87070],[54,53,52,51,50,49,48,47,46,45,44,43,42,41,40],["Registros en construcción","Registros preliminares","Registros preliminares","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables","Registros estables"],["Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones","Defunciones"],[2021,2021,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020,2020]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>n<\/th>\n      <th>n_acum<\/th>\n      <th>Sem_x<\/th>\n      <th>Registros<\/th>\n      <th>Estadistica<\/th>\n      <th>Año<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[1,2,3,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+
+]
+
+
+]
+
+---
+
+### Resumir variables: **summarise**
+
+El cálculo de resúmenes estadísticos es fundamental en la ciencia de datos.
+De hecho, el estadístico Stephen Stigler lo considera como el *primer pilar de la sabiduría estadística* en uno de sus recientes [libros](https://www.goodreads.com/book/show/27311742-the-seven-pillars-of-statistical-wisdom).
+
+Por ejemplo, podemos obtener información útil con preguntas como
+
+¿Cuánto fue el acmé semanal de defunciones?
+
+¿Cuánto ha sido el promedio de defunciones semanales?
+
+.panelset[
+.panel[.panel-name[Objetivo]
+
+&lt;img src="img/04_dplyr_verbs/summarise.png" width="329" /&gt;
+
+]
+
+.panel[.panel-name[Función]
+
+Ingresamos los datos como primer parámetro y calculamos los resúmenes.
+
+
+```r
+summarise(evol_covid_def, 
+          Max = max(n),
+          Promedio = mean(n))
+```
+
+]
+
+.panel[.panel-name[Resultado]
+
+
+```
+## # A tibble: 1 x 2
+##     Max Promedio
+##   &lt;dbl&gt;    &lt;dbl&gt;
+## 1  5049    2935.
+```
+
+]
+
+
+]
+
+---
+
+layout: false
+class: inverse, center, middle
+
+# Estos fueron los 5 verbos básicos
+
+---
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/dplyr.svg)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### Analizar por grupos
+
+Además de los 5 verbos básicos, muchas veces queremos aplicar las mismas operaciones por grupos. Por ejemplo, podríamos querer calcular el acmé y promedio tanto de defunciones como de casos. 
+
+Para ello existe la función **group_by()**, que recibe un *tibble* y regresa un *tibble agrupado* al que se le aplicarán funciones por grupos, ya sea via *summarise()* o *mutate()*. 
+
+&lt;img src="img/04_dplyr_verbs/group_by.png" width="768" /&gt;
+
+---
+
+.panelset[
+
+.panel[.panel-name[Función]
+
+Ingresamos los datos como primer parámetro y damos la variable de agrupación. 
+
+
+```r
+evol_covid_agrupado &lt;- group_by(evol_covid_comb,Estadistica)
+evol_covid_agrupado
+```
+
+```
+## # A tibble: 97 x 5
+## # Groups:   Estadistica [2]
+##        n  n_acum Sem_x Registros              Estadistica
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;      
+##  1 43080  300771    27 Registros estables     Casos      
+##  2  2902   79604    37 Registros estables     Defunciones
+##  3   672    1254    16 Registros estables     Defunciones
+##  4 49970  395105    29 Registros estables     Casos      
+##  5  1896    4444    18 Registros estables     Defunciones
+##  6 54990 1414212    52 Registros preliminares Casos      
+##  7  2612   82216    38 Registros estables     Defunciones
+##  8 57058 1471270    53 Registros preliminares Casos      
+##  9  8990   22426    17 Registros estables     Casos      
+## 10   185     212    11 Registros estables     Casos      
+## # … with 87 more rows
+```
+
+]
+
+.panel[.panel-name[Resumir]
+
+
+```r
+summarise(evol_covid_agrupado, 
+          Max = max(n),
+          Promedio = mean(n))
+```
+
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```
+## # A tibble: 2 x 3
+##   Estadistica   Max Promedio
+##   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Casos       71105   28999.
+## 2 Defunciones  5049    2935.
+```
+
+]
+
+.panel[.panel-name[Crear variable]
+
+
+```r
+mutate(evol_covid_agrupado, 
+       Max = max(n),
+       Promedio = mean(n))
+```
+
+```
+## # A tibble: 97 x 7
+## # Groups:   Estadistica [2]
+##        n  n_acum Sem_x Registros              Estadistica   Max Promedio
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+##  1 43080  300771    27 Registros estables     Casos       71105   28999.
+##  2  2902   79604    37 Registros estables     Defunciones  5049    2935.
+##  3   672    1254    16 Registros estables     Defunciones  5049    2935.
+##  4 49970  395105    29 Registros estables     Casos       71105   28999.
+##  5  1896    4444    18 Registros estables     Defunciones  5049    2935.
+##  6 54990 1414212    52 Registros preliminares Casos       71105   28999.
+##  7  2612   82216    38 Registros estables     Defunciones  5049    2935.
+##  8 57058 1471270    53 Registros preliminares Casos       71105   28999.
+##  9  8990   22426    17 Registros estables     Casos       71105   28999.
+## 10   185     212    11 Registros estables     Casos       71105   28999.
+## # … with 87 more rows
+```
+
+]
+
+]
+
+---
+
+layout: false
+class: inverse, left, top
+
+# Y aquí vendrá una idea nueva 
+
+### Normalmente queremos concatenar operaciones. 
+
+.pull-left[
+Por ejemplo: 
+
+1. Filtrar, 
+2. y luego seleccionar,
+3. y luego agrupar, 
+4. y luego resumir.
+]
+
+--
+.pull-right[
+
+&lt;img src="img/00_hex/pipe.png" width="60%" /&gt;
+]
+
+--
+
+### Va a parecer magia
+
+---
+layout: true
+
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/pipe.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+---
+
+### ¿Qué hace el código?
+
+.panelset[
+
+.panel[.panel-name[Código]
+
+```r
+base_covid_2 %&gt;% 
+  select(ENTIDAD_UM, SEXO, FECHA_DEF, CLASIFICACION_FINAL) %&gt;% 
+  mutate(SEXO = ifelse(SEXO == "1","F","M"),
+         COVID = ifelse(CLASIFICACION_FINAL %in% c("1","2","3"),
+                        "Positivo","Negativo")) %&gt;% 
+  filter(!is.na(FECHA_DEF)) %&gt;% 
+  group_by(ENTIDAD_UM,SEXO,COVID) %&gt;% 
+  summarise(X = n())
+```
+]
+
+.panel[.panel-name[Resultado]
+
+```
+## `summarise()` regrouping output by 'ENTIDAD_UM', 'SEXO' (override with `.groups` argument)
+```
+
+```
+## # A tibble: 127 x 4
+## # Groups:   ENTIDAD_UM, SEXO [64]
+##    ENTIDAD_UM SEXO  COVID        X
+##    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;    &lt;int&gt;
+##  1 01         F     Negativo     9
+##  2 01         F     Positivo     9
+##  3 01         M     Negativo    15
+##  4 01         M     Positivo    12
+##  5 02         F     Negativo    36
+##  6 02         F     Positivo    76
+##  7 02         M     Negativo    47
+##  8 02         M     Positivo   123
+##  9 03         F     Positivo     4
+## 10 03         M     Negativo     4
+## # … with 117 more rows
+```
+]
+]
+
+---
+
+layout: false
+class: left, top
+background-image: url(img/01_generales/caricatura_ob.jpeg), url(img/00_hex/tidyverse.png)
+background-position: 1% 99%, 99% 1%
+background-size: 5%
+
+### ¿Dónde vamos hasta ahora?
+
+&lt;img src="img/01_generales/ruta_pipe.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+layout: false
+class: inverse, left, top
+
+### ¿Qué sigue? 
+
+Una ruta completa con algunas otras lecciones de transformación
+
+&lt;img src="img/00_hex/tidyverse.png" width="50%" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
